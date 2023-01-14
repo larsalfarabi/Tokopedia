@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class LoginController extends GetxController {
-  //TODO: Implement LoginController
+class RegisterController extends GetxController {
+  //TODO: Implement RegisterController
   RxBool showEyes = true.obs;
   changeEye() => showEyes.toggle();
-  TextEditingController password = TextEditingController();
   final count = 0.obs;
   @override
   void onInit() {

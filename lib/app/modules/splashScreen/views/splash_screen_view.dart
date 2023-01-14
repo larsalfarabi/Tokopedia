@@ -14,7 +14,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
     return Scaffold(
       body: Container(
         height: tinggi,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
         decoration: BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -25,56 +25,61 @@ class SplashScreenView extends GetView<SplashScreenController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  Container(
-                    height: tinggi * 0.3,
-                    width: lebar,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/logo/sp.png'),
+              Container(
+                height: tinggi * 0.85,
+                child: Column(
+                  children: [
+                    Container(
+                      height: tinggi * 0.3,
+                      width: lebar,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/sp.png'),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: tinggi * 0.05,
-                  ),
-                  Text(
-                    'Let`s Get Started',
-                    style: TextStyle(
-                        fontSize: 50,
+                    SizedBox(
+                      height: tinggi * 0.05,
+                    ),
+                    Text(
+                      'Let`s Get Started',
+                      style: TextStyle(
+                          fontSize: 50,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: tinggi * 0.024,
+                    ),
+                    Text(
+                      'Connect with each other with chatting or calling. Enjoy safe and private texting',
+                      style: TextStyle(
+                        fontSize: 16,
                         color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: tinggi * 0.024,
-                  ),
-                  Text(
-                    'Connect with each other with chatting or calling. Enjoy safe and private texting',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(
-                    height: tinggi * 0.08,
-                  ),
-                  Container(
-                    width: lebar,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () => Get.toNamed(Routes.LOGIN),
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
-                      ),
-                      child: Text(
-                        'Join Now',
-                        style: TextStyle(color: Color(0xff0D8173)),
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: tinggi * 0.09,
+                    ),
+                    Container(
+                      width: lebar,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () => Get.toNamed(Routes.LOGIN),
+                        style: ButtonStyle(
+                          elevation: MaterialStateProperty.all(0),
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.white),
+                        ),
+                        child: Text(
+                          'Join Now',
+                          style:
+                              TextStyle(color: Color(0xff0D8173), fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
