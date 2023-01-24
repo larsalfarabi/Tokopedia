@@ -221,7 +221,7 @@ class DetailView extends GetView<DetailController> {
                   color: shadow,
                 ),
               ),
-              detailProduk(lebar, 'Etalase', 'Mine Private Collection'),
+              detailProduk2(lebar, 'Etalase', 'Mine Private Collection'),
               SizedBox(
                 height: tinggi * 0.01,
               ),
@@ -747,13 +747,39 @@ Widget detailProduk(lebar, judul, subJudul) {
     padding: EdgeInsets.symmetric(horizontal: 15),
     child: Row(
       children: [
-        Text(
-          judul,
-          style: TextStyle(color: subjudul3, fontSize: 16),
+        Container(
+          margin: EdgeInsets.only(right: 65),
+          child: Text(
+            judul,
+            style: TextStyle(color: subjudul3, fontSize: 16),
+          ),
         ),
         Text(
           subJudul,
           style: TextStyle(fontSize: 16),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget detailProduk2(lebar, judul, subJudul) {
+  return Container(
+    width: lebar,
+    padding: EdgeInsets.symmetric(horizontal: 15),
+    child: Row(
+      children: [
+        Container(
+          margin: EdgeInsets.only(right: 108),
+          child: Text(
+            judul,
+            style: TextStyle(color: subjudul3, fontSize: 16),
+          ),
+        ),
+        Text(
+          subJudul,
+          style: TextStyle(
+              fontSize: 16, color: bgNav, fontWeight: FontWeight.w600),
         ),
       ],
     ),
