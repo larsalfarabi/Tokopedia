@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
+import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 import '../controllers/home_controller.dart';
 
@@ -20,7 +21,7 @@ class HomeView extends GetView<HomeController> {
             Container(
               height: tinggi * 0.13,
               decoration: BoxDecoration(color: bgNav),
-              padding: EdgeInsets.fromLTRB(20, 40, 20, 10),
+              padding: EdgeInsets.fromLTRB(15, 35, 15, 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -142,7 +143,7 @@ class HomeView extends GetView<HomeController> {
               child: Text(
                 'Kejar Diskon Spesial',
                 style: TextStyle(
-                  color: judul,
+                  color: judul1,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -279,7 +280,7 @@ class HomeView extends GetView<HomeController> {
                   Text(
                     'Pilihan Promo Hari Ini',
                     style: TextStyle(
-                      color: judul,
+                      color: judul1,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
@@ -345,7 +346,7 @@ class HomeView extends GetView<HomeController> {
                   Text(
                     'Produk Pilihan Untukmu',
                     style: TextStyle(
-                      color: judul,
+                      color: judul1,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
@@ -559,127 +560,130 @@ Widget pilihan(lebar, warna, warna2, judul, warna3) {
 
 Widget produk(lebar, double lebar2, tinggi, gambar, harga, diskonPercen,
     jumlahDiskon, penjual, asal) {
-  return Container(
-    height: tinggi * 0.4,
-    width: lebar2,
-    margin: EdgeInsets.fromLTRB(0, 15, 12, 15),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-      boxShadow: [
-        BoxShadow(
-          color: shadow,
-          blurRadius: 8,
-          offset: Offset(0, 4),
-        )
-      ],
-    ),
-    child: Column(
-      children: [
-        Container(
-          width: lebar,
-          height: tinggi * 0.19,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
+  return InkWell(
+    onTap: () => Get.toNamed(Routes.DETAIL),
+    child: Container(
+      height: tinggi * 0.36,
+      width: lebar2,
+      margin: EdgeInsets.fromLTRB(0, 15, 12, 15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: shadow,
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          )
+        ],
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: lebar,
+            height: tinggi * 0.19,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
+              image: DecorationImage(
+                  image: AssetImage(
+                    gambar,
+                  ),
+                  fit: BoxFit.cover),
             ),
-            image: DecorationImage(
-                image: AssetImage(
-                  gambar,
+          ),
+          Container(
+            width: lebar,
+            height: tinggi * 0.163,
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  harga,
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                 ),
-                fit: BoxFit.cover),
-          ),
-        ),
-        Container(
-          width: lebar,
-          height: tinggi * 0.163,
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(12),
-              bottomRight: Radius.circular(12),
+                SizedBox(
+                  height: tinggi * 0.006,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 20,
+                      margin: EdgeInsets.only(right: 6),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(1),
+                        color: bgDiskon,
+                      ),
+                      child: Text(
+                        diskonPercen,
+                        style: TextStyle(
+                            color: diskon,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12),
+                      ),
+                    ),
+                    Text(
+                      jumlahDiskon,
+                      style: TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                          fontSize: 12,
+                          color: search),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: tinggi * 0.006,
+                ),
+                Row(
+                  children: [
+                    Image.asset(
+                      penjual,
+                      width: 15,
+                    ),
+                    Text(
+                      asal,
+                      style: TextStyle(
+                        color: search,
+                        fontSize: 13,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: tinggi * 0.011,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 3),
+                      child: Icon(
+                        IconlyBold.star,
+                        color: star,
+                        size: 14,
+                      ),
+                    ),
+                    Text(
+                      '4.8 | Terjual 312',
+                      style: TextStyle(color: search, fontSize: 13),
+                    )
+                  ],
+                ),
+              ],
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                harga,
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: tinggi * 0.006,
-              ),
-              Row(
-                children: [
-                  Container(
-                    width: 30,
-                    height: 20,
-                    margin: EdgeInsets.only(right: 6),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(1),
-                      color: bgDiskon,
-                    ),
-                    child: Text(
-                      diskonPercen,
-                      style: TextStyle(
-                          color: diskon,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12),
-                    ),
-                  ),
-                  Text(
-                    jumlahDiskon,
-                    style: TextStyle(
-                        decoration: TextDecoration.lineThrough,
-                        fontSize: 12,
-                        color: search),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: tinggi * 0.006,
-              ),
-              Row(
-                children: [
-                  Image.asset(
-                    penjual,
-                    width: 15,
-                  ),
-                  Text(
-                    asal,
-                    style: TextStyle(
-                      color: search,
-                      fontSize: 13,
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: tinggi * 0.011,
-              ),
-              Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(right: 3),
-                    child: Icon(
-                      IconlyBold.star,
-                      color: star,
-                      size: 14,
-                    ),
-                  ),
-                  Text(
-                    '4.8 | Terjual 312',
-                    style: TextStyle(color: search, fontSize: 13),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }

@@ -32,7 +32,7 @@ class ResetpasswordView extends GetView<ResetpasswordController> {
             Text(
               'Reset Password',
               style: TextStyle(
-                  color: judul, fontSize: 26, fontWeight: FontWeight.w600),
+                  color: judul1, fontSize: 26, fontWeight: FontWeight.w600),
             ),
             SizedBox(
               height: tinggi * 0.015,
@@ -47,7 +47,7 @@ class ResetpasswordView extends GetView<ResetpasswordController> {
             Text(
               'Email Address',
               style: TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.w500, color: judul),
+                  fontSize: 16, fontWeight: FontWeight.w500, color: judul1),
             ),
             SizedBox(
               height: tinggi * 0.012,
@@ -56,7 +56,7 @@ class ResetpasswordView extends GetView<ResetpasswordController> {
               width: lebar,
               height: 50,
               child: TextField(
-                cursorColor: judul,
+                cursorColor: judul1,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   contentPadding:

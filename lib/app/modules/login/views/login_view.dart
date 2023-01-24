@@ -27,7 +27,7 @@ class LoginView extends GetView<LoginController> {
                       Text(
                         'Hi, Welcome Back!👋',
                         style: TextStyle(
-                          color: judul,
+                          color: judul1,
                           fontWeight: FontWeight.w600,
                           fontSize: 26,
                         ),
@@ -47,7 +47,7 @@ class LoginView extends GetView<LoginController> {
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: judul),
+                            color: judul1),
                       ),
                       SizedBox(
                         height: tinggi * 0.012,
@@ -56,7 +56,7 @@ class LoginView extends GetView<LoginController> {
                         width: lebar,
                         height: 50,
                         child: TextField(
-                          cursorColor: judul,
+                          cursorColor: judul1,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
@@ -85,7 +85,7 @@ class LoginView extends GetView<LoginController> {
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: judul),
+                            color: judul1),
                       ),
                       SizedBox(
                         height: tinggi * 0.012,
@@ -94,7 +94,7 @@ class LoginView extends GetView<LoginController> {
                         width: lebar,
                         height: 50,
                         child: TextField(
-                          cursorColor: judul,
+                          cursorColor: judul1,
                           obscureText: controller.showEyes.value,
                           decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(

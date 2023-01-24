@@ -34,7 +34,7 @@ class CheckemailView extends GetView<CheckemailController> {
                   Text(
                     'Check Your Email',
                     style: TextStyle(
-                        color: judul,
+                        color: judul1,
                         fontSize: 26,
                         fontWeight: FontWeight.w600),
                   ),

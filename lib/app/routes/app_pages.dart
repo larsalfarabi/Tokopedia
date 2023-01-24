@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import 'package:tokopedia/app/modules/checkemail/bindings/checkemail_binding.dart';
 import 'package:tokopedia/app/modules/checkemail/views/checkemail_view.dart';
+import 'package:tokopedia/app/modules/detail/bindings/detail_binding.dart';
+import 'package:tokopedia/app/modules/detail/views/detail_view.dart';
 import 'package:tokopedia/app/modules/home/bindings/home_binding.dart';
 import 'package:tokopedia/app/modules/home/views/home_view.dart';
 import 'package:tokopedia/app/modules/login/bindings/login_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.CHECKEMAIL,
       page: () => CheckemailView(),
       binding: CheckemailBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL,
+      page: () => DetailView(),
+      binding: DetailBinding(),
     ),
   ];
 }
