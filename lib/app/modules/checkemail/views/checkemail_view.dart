@@ -1,6 +1,8 @@
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 
 import '../controllers/checkemail_controller.dart';
@@ -58,7 +60,15 @@ class CheckemailView extends GetView<CheckemailController> {
                     width: lebar * 0.45,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await LaunchApp.openApp(
+                          androidPackageName: 'com.google.android.gm',
+                          iosUrlScheme: 'googlegmail://',
+                          appStoreLink:
+                              'itms-apps://apps.apple.com/us/app/gmail-email-by-google/id422689480',
+                          openStore: true,
+                        );
+                      },
                       style: ButtonStyle(
                         elevation: MaterialStateProperty.all(0),
                         backgroundColor:
@@ -73,10 +83,14 @@ class CheckemailView extends GetView<CheckemailController> {
                   SizedBox(
                     height: tinggi * 0.045,
                   ),
-                  Text(
-                    'Skip, I’ll confirm later',
-                    style: TextStyle(
-                        decoration: TextDecoration.underline, color: subjudul),
+                  InkWell(
+                    onTap: () => Get.toNamed(Routes.LOGIN),
+                    child: Text(
+                      'Skip, I’ll confirm later',
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: subjudul),
+                    ),
                   )
                 ],
               ),

@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:pinput/pinput.dart';
 
-class RegisterController extends GetxController {
-  //TODO: Implement RegisterController
-  RxBool showEyes = true.obs;
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  changeEye() => showEyes.toggle();
+class OTPVerificationController extends GetxController {
+  //TODO: Implement OTPVerificationController
+  TextEditingController otp = TextEditingController();
+
   final count = 0.obs;
   @override
   void onInit() {

@@ -11,6 +11,11 @@ abstract class Routes {
   static const RESETPASSWORD = _Paths.RESETPASSWORD;
   static const CHECKEMAIL = _Paths.CHECKEMAIL;
   static const DETAIL = _Paths.DETAIL;
+  static const LOGIN_WITH_PHONE_NUMBER = _Paths.LOGIN_WITH_PHONE_NUMBER;
+  static const O_T_P_VERIFICATION = _Paths.O_T_P_VERIFICATION;
+  static const HOME_ADMIN = _Paths.HOME_ADMIN;
+  static const SLIDER_DATA = _Paths.SLIDER_DATA;
+  static const UPDATE_DATA = _Paths.UPDATE_DATA;
 }
 
 abstract class _Paths {
@@ -21,4 +26,9 @@ abstract class _Paths {
   static const RESETPASSWORD = '/resetpassword';
   static const CHECKEMAIL = '/checkemail';
   static const DETAIL = '/detail';
+  static const LOGIN_WITH_PHONE_NUMBER = '/login-with-phone-number';
+  static const O_T_P_VERIFICATION = '/o-t-p-verification';
+  static const HOME_ADMIN = '/home-admin';
+  static const SLIDER_DATA = '/slider-data';
+  static const UPDATE_DATA = '/update-data';
 }

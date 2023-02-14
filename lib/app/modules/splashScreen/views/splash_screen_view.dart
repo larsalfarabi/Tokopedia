@@ -26,7 +26,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                height: tinggi * 0.85,
+                height: tinggi * 0.8,
                 child: Column(
                   children: [
                     Container(
@@ -81,20 +81,32 @@ class SplashScreenView extends GetView<SplashScreenController> {
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Already have an account? ',
-                    style: TextStyle(color: Colors.white),
+              Column(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already have an account? ',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Text(
+                      "Login",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+                InkWell(
+                  onTap: () => Get.offAllNamed(Routes.LOGIN_WITH_PHONE_NUMBER),
+                  child: Container(
+                    margin: EdgeInsets.only(top: 5),
+                    alignment: Alignment.center,
+                    child: Text('Phone Number',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, color: Colors.white)),
                   ),
-                  Text(
-                    "Login",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w500),
-                  )
-                ],
-              ),
+                )
+              ])
             ],
           ),
         ),

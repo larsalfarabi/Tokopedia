@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
+import 'package:tokopedia/app/controllers/auth_controller_controller.dart';
 import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
+  final controller = Get.put(LoginController());
+  final authController = Get.put(AuthControllerController());
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoginController());
     double lebar = MediaQuery.of(context).size.width;
     double tinggi = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -57,6 +59,7 @@ class LoginView extends GetView<LoginController> {
                         height: 50,
                         child: TextField(
                           cursorColor: judul1,
+                          controller: controller.email,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
@@ -96,6 +99,7 @@ class LoginView extends GetView<LoginController> {
                         child: TextField(
                           cursorColor: judul1,
                           obscureText: controller.showEyes.value,
+                          controller: controller.password,
                           decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 15),
@@ -143,7 +147,8 @@ class LoginView extends GetView<LoginController> {
                         width: lebar,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () => Get.offNamed(Routes.HOME),
+                          onPressed: () => authController.login(
+                              controller.email.text, controller.password.text),
                           style: ButtonStyle(
                             elevation: MaterialStateProperty.all(0),
                             backgroundColor:
@@ -182,48 +187,54 @@ class LoginView extends GetView<LoginController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            width: lebar * 0.42,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: lineGray, width: 1),
-                                borderRadius: BorderRadius.circular(6)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset('assets/Facebook.png'),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  'Facebook',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                          InkWell(
+                            onTap: () => authController.signInWithFacebook(),
+                            child: Container(
+                              width: lebar * 0.42,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: lineGray, width: 1),
+                                  borderRadius: BorderRadius.circular(6)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset('assets/Facebook.png'),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    'Facebook',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          Container(
-                            width: lebar * 0.42,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: lineGray, width: 1),
-                                borderRadius: BorderRadius.circular(6)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset('assets/Google.png'),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  'Google',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                          InkWell(
+                            onTap: () => authController.signInWithGoogle(),
+                            child: Container(
+                              width: lebar * 0.42,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: lineGray, width: 1),
+                                  borderRadius: BorderRadius.circular(6)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset('assets/Google.png'),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    'Google',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
                             ),
                           )
                         ],

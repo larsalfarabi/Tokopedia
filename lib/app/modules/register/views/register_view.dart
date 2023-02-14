@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
+import 'package:tokopedia/app/controllers/auth_controller_controller.dart';
 import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 
 import '../controllers/register_controller.dart';
 
 class RegisterView extends GetView<RegisterController> {
+  final controller = Get.put(RegisterController());
+  final controllerAuth = Get.put(AuthControllerController());
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(RegisterController());
@@ -59,6 +62,7 @@ class RegisterView extends GetView<RegisterController> {
                           width: lebar,
                           height: 50,
                           child: TextField(
+                            controller: controller.email,
                             cursorColor: Colors.black,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
@@ -157,6 +161,7 @@ class RegisterView extends GetView<RegisterController> {
                           width: lebar,
                           height: 50,
                           child: TextField(
+                            controller: controller.password,
                             cursorColor: Colors.black,
                             obscureText: controller.showEyes.value,
                             decoration: InputDecoration(
@@ -193,7 +198,9 @@ class RegisterView extends GetView<RegisterController> {
                           width: lebar,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () => Get.toNamed(Routes.LOGIN),
+                            onPressed: () => controllerAuth.register(
+                                controller.email.text,
+                                controller.password.text),
                             style: ButtonStyle(
                               elevation: MaterialStateProperty.all(0),
                               backgroundColor:
