@@ -77,8 +77,18 @@ class SliderController extends GetxController {
     try {
       await slider.delete();
       Get.defaultDialog(
-          title: 'Berhasil', middleText: "Berhasil menghapus data");
-      Get.offAllNamed(Routes.SLIDER_DATA);
+        title: "Info",
+        middleText: "Apakah anda ingin menhapus",
+        confirm: ElevatedButton(
+          onPressed: () => Get.offAllNamed(Routes.SLIDER_DATA),
+          child: Text('YES'),
+        ),
+        cancel: ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+          onPressed: () => Get.back(),
+          child: Text('NO'),
+        ),
+      );
     } catch (e) {
       print(e);
       Get.defaultDialog(
