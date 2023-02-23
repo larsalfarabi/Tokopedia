@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             title: "Application",
             initialRoute:
                 snapshot.data != null && snapshot.data?.emailVerified == true
-                    ? Routes.HOME_ADMIN
+                    ? Routes.HOME
                     : Routes.SPLASH_SCREEN,
             getPages: AppPages.routes,
             debugShowCheckedModeBanner: false,

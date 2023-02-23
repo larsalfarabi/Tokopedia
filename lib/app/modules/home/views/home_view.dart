@@ -1,15 +1,20 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
 import 'package:tokopedia/app/controllers/auth_controller_controller.dart';
+import 'package:tokopedia/app/controllers/produk_controller.dart';
+import 'package:tokopedia/app/controllers/slider_controller.dart';
 import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   final controllerAuth = Get.put(AuthControllerController());
+  final controllerSlider = Get.put(SliderController());
+  final controllerProduk = Get.put(ProdukController());
   @override
   Widget build(BuildContext context) {
     double lebar = MediaQuery.of(context).size.width;
@@ -92,32 +97,40 @@ class HomeView extends GetView<HomeController> {
               SizedBox(
                 height: tinggi * 0.015,
               ),
-              Container(
-                width: lebar,
-                height: tinggi * 0.15,
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: tinggi * 0.4,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 3),
-                  ),
-                  items: [
-                    'assets/banner.png',
-                    'assets/banner2.png',
-                    'assets/banner3.png'
-                  ].map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: lebar,
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Image.asset(i),
-                        );
-                      },
-                    );
-                  }).toList(),
-                ),
-              ),
+              FutureBuilder(
+                  future: controllerSlider.getData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      var listData = snapshot.data!.docs;
+                      return Container(
+                        width: lebar,
+                        height: tinggi * 0.15,
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                            height: tinggi * 0.4,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 3),
+                          ),
+                          items: listData.map((i) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return Container(
+                                  width: lebar,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  child: Image.network((i.data()
+                                      as Map<String, dynamic>)['gambarSlider']),
+                                );
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
               SizedBox(
                 height: tinggi * 0.02,
               ),
@@ -228,36 +241,31 @@ class HomeView extends GetView<HomeController> {
                           'assets/kebut.png',
                         ),
                       ),
-                      produk(
-                          lebar,
-                          125,
-                          tinggi,
-                          'assets/masker.png',
-                          'Rp 1.000',
-                          '92%',
-                          'Rp 12.546',
-                          'assets/menu/official.png',
-                          'Kab. Tangerang'),
-                      produk(
-                          lebar,
-                          125,
-                          tinggi,
-                          'assets/mouse3.png',
-                          'Rp 239.000',
-                          '32%',
-                          'Rp 349.000',
-                          'assets/populer.png',
-                          'Kab. Bandung'),
-                      produk(
-                          lebar,
-                          125,
-                          tinggi,
-                          'assets/parfum.png',
-                          'Rp 400.000',
-                          '32%',
-                          'Rp 500.000',
-                          'assets/populer.png',
-                          'Kab. Bandung'),
+                      FutureBuilder(
+                          future: controllerProduk.getData(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              var listData = snapshot.data!.docs;
+                              print("========================");
+                              print(listData);
+                              print("========================");
+                              return Row(
+                                children: List.generate(
+                                    listData.length,
+                                    (index) => produk(
+                                        lebar,
+                                        lebar * 0.42,
+                                        tinggi,
+                                        listData[index],
+                                        controllerProduk)),
+                              );
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          })
                     ],
                   ),
                 ),
@@ -362,40 +370,28 @@ class HomeView extends GetView<HomeController> {
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 height: tinggi * 0.4,
                 child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(children: [
-                    produk(
-                        lebar,
-                        125,
-                        tinggi,
-                        'assets/mouse.png',
-                        'Rp 609.000',
-                        '44%',
-                        'Rp 1.090.000',
-                        'assets/populer.png',
-                        'Kab. Bandung'),
-                    produk(
-                        lebar,
-                        125,
-                        tinggi,
-                        'assets/mouse2.png',
-                        'Rp 204.000',
-                        '46%',
-                        'Rp 379.000',
-                        'assets/populer.png',
-                        'Kab. Bandung'),
-                    produk(
-                        lebar,
-                        125,
-                        tinggi,
-                        'assets/mouse3.png',
-                        'Rp 239.000',
-                        '32%',
-                        'Rp 349.000',
-                        'assets/populer.png',
-                        'Kab. Bandung'),
-                  ]),
-                ),
+                    scrollDirection: Axis.horizontal,
+                    child: FutureBuilder(
+                        future: controllerProduk.getData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            var listData = snapshot.data!.docs;
+                            print("========================");
+                            print(listData);
+                            print("========================");
+                            return Row(
+                              children: List.generate(
+                                  listData.length,
+                                  (index) => produk(lebar, lebar * 0.42, tinggi,
+                                      listData[index], controllerProduk)),
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        })),
               ),
               SizedBox(
                 height: tinggi * 0.02,
@@ -431,51 +427,30 @@ class HomeView extends GetView<HomeController> {
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Wrap(
-                  spacing: 3.5,
-                  runSpacing: 1,
-                  children: [
-                    produk(
-                        lebar,
-                        lebar * 0.42,
-                        tinggi,
-                        'assets/mouse4.png',
-                        'Rp 699.000',
-                        '12%',
-                        'Rp 790.000',
-                        'assets/populer.png',
-                        'Jakarta Pusat'),
-                    produk(
-                        lebar,
-                        lebar * 0.42,
-                        tinggi,
-                        'assets/monitor.png',
-                        'Rp 5.949.900',
-                        '44%',
-                        'Rp 1.090.000',
-                        'assets/populer.png',
-                        'Kota Depok'),
-                    produk(
-                        lebar,
-                        lebar * 0.42,
-                        tinggi,
-                        'assets/stopkontak.png',
-                        'Rp 3.750',
-                        '44%',
-                        'Rp 1.090.000',
-                        'assets/populer.png',
-                        'Kab. Tangerang'),
-                    produk(
-                        lebar,
-                        lebar * 0.42,
-                        tinggi,
-                        'assets/mouse3.png',
-                        'Rp 239.000',
-                        '32%',
-                        'Rp 349.000',
-                        'assets/populer.png',
-                        'Kab. Bandung'),
-                  ],
+                child: FutureBuilder<QuerySnapshot<Object?>>(
+                  future: controllerProduk.getData(),
+                  builder: (context, Snapshot) {
+                    if (Snapshot.connectionState == ConnectionState.done) {
+                      var listData = Snapshot.data!.docs;
+                      print("========================");
+                      print(listData);
+                      print("========================");
+                      return SingleChildScrollView(
+                        child: Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: List.generate(
+                              listData.length,
+                              (index) => produk(lebar, lebar * 0.4, tinggi,
+                                  listData[index], controllerProduk)),
+                        ),
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
                 ),
               ),
               SizedBox(
@@ -505,7 +480,7 @@ class HomeView extends GetView<HomeController> {
   }
 }
 
-Widget Menu(image, text, tinggi) {
+Widget Menu(image, String text, tinggi) {
   return Container(
     width: 65,
     child: Column(
@@ -520,6 +495,7 @@ Widget Menu(image, text, tinggi) {
         Text(
           text,
           textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.black),
         ),
       ],
     ),
@@ -556,12 +532,14 @@ Widget pilihan(lebar, warna, warna2, judul, warna3) {
   );
 }
 
-Widget produk(lebar, double lebar2, tinggi, gambar, harga, diskonPercen,
-    jumlahDiskon, penjual, asal) {
+Widget produk(lebar, double lebar2, tinggi, data, controller) {
+  final rumus = (data.data() as Map<String, dynamic>)['diskonPercent'] *
+      ((data.data() as Map<String, dynamic>)['harga'] / 100);
+  final hargaFix = (data.data() as Map<String, dynamic>)['harga'] - rumus;
   return InkWell(
     onTap: () => Get.toNamed(Routes.DETAIL),
     child: Container(
-      height: tinggi * 0.36,
+      height: tinggi * 0.425,
       width: lebar2,
       margin: EdgeInsets.fromLTRB(0, 15, 12, 15),
       decoration: BoxDecoration(
@@ -579,23 +557,22 @@ Widget produk(lebar, double lebar2, tinggi, gambar, harga, diskonPercen,
         children: [
           Container(
             width: lebar,
-            height: tinggi * 0.19,
+            height: tinggi * 0.2,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-              ),
-              image: DecorationImage(
-                  image: AssetImage(
-                    gambar,
-                  ),
-                  fit: BoxFit.cover),
-            ),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+                image: DecorationImage(
+                    image: NetworkImage(
+                      (data.data() as Map<String, dynamic>)["gambar"],
+                    ),
+                    fit: BoxFit.cover)),
           ),
           Container(
             width: lebar,
-            height: tinggi * 0.163,
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            height: tinggi * 0.223,
+            padding: EdgeInsets.only(top: 10, right: 8, left: 8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(12),
@@ -605,9 +582,26 @@ Widget produk(lebar, double lebar2, tinggi, gambar, harga, diskonPercen,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Container(
+                  width: lebar,
+                  child: Text(
+                    "${(data.data() as Map<String, dynamic>)['nama']}",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black),
+                  ),
+                ),
+                SizedBox(
+                  height: tinggi * 0.006,
+                ),
                 Text(
-                  harga,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                  "Rp${hargaFix}00 ",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black),
                 ),
                 SizedBox(
                   height: tinggi * 0.006,
@@ -617,14 +611,14 @@ Widget produk(lebar, double lebar2, tinggi, gambar, harga, diskonPercen,
                     Container(
                       width: 30,
                       height: 20,
-                      margin: EdgeInsets.only(right: 6),
+                      margin: EdgeInsets.only(right: 10),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(1),
                         color: bgDiskon,
                       ),
                       child: Text(
-                        diskonPercen,
+                        "${(data.data() as Map<String, dynamic>)['diskonPercent'].toString()}%",
                         style: TextStyle(
                             color: diskon,
                             fontWeight: FontWeight.w600,
@@ -632,7 +626,7 @@ Widget produk(lebar, double lebar2, tinggi, gambar, harga, diskonPercen,
                       ),
                     ),
                     Text(
-                      jumlahDiskon,
+                      "Rp${(data.data() as Map<String, dynamic>)['harga'].toString()}.000",
                       style: TextStyle(
                           decoration: TextDecoration.lineThrough,
                           fontSize: 12,
@@ -645,12 +639,12 @@ Widget produk(lebar, double lebar2, tinggi, gambar, harga, diskonPercen,
                 ),
                 Row(
                   children: [
-                    Image.asset(
-                      penjual,
+                    Image.network(
+                      (data.data() as Map<String, dynamic>)['statusToko'],
                       width: 15,
                     ),
                     Text(
-                      asal,
+                      (data.data() as Map<String, dynamic>)['asalToko'],
                       style: TextStyle(
                         color: search,
                         fontSize: 13,
@@ -672,7 +666,7 @@ Widget produk(lebar, double lebar2, tinggi, gambar, harga, diskonPercen,
                       ),
                     ),
                     Text(
-                      '4.8 | Terjual 312',
+                      "${(data.data() as Map<String, dynamic>)['rating'].toString()} | Terjual ${(data.data() as Map<String, dynamic>)['terjual'].toString()}",
                       style: TextStyle(color: search, fontSize: 13),
                     )
                   ],

@@ -19,6 +19,9 @@ class SliderDataView extends GetView<SliderDataController> {
           builder: (context, Snapshot) {
             if (Snapshot.connectionState == ConnectionState.done) {
               var listData = Snapshot.data!.docs;
+              print("========================");
+              print(listData);
+              print("========================");
               return ListView.builder(
                 itemCount: listData.length,
                 itemBuilder: (context, index) => Container(
@@ -27,9 +30,9 @@ class SliderDataView extends GetView<SliderDataController> {
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.black54.withOpacity(0.2),
                   ),
+                  // child: Text("adadadaad"),
                   child: ListTile(
-                    style: ListTileStyle.drawer,
-                    onTap: () => Get.toNamed(Routes.UPDATE_DATA,
+                    onTap: () => Get.offAllNamed(Routes.UPDATE_DATA,
                         arguments: listData[index]),
                     leading: Image.network(
                       (listData[index].data()
@@ -65,8 +68,7 @@ class SliderDataView extends GetView<SliderDataController> {
             }
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => controllerSlider.addData(true, "youtube",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6XvTRjeslELtVvuiRlHwGKV74kfSALID31g&usqp=CAU"),
+        onPressed: () => Get.offAllNamed(Routes.CREATE_SLIDER),
         child: Icon(Icons.add),
       ),
     );

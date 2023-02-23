@@ -2,30 +2,33 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tokopedia/app/routes/app_pages.dart';
 
-class SliderController extends GetxController {
+class ProdukController extends GetxController {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
   FirebaseStorage storage = FirebaseStorage.instance;
   String url = '';
   File? path;
 
-  addData(bool activeSlider, String ketSlider, String gambarSlider) async {
-    CollectionReference slider = fireStore.collection('slider');
-    // Create a new user with a first and last name
-    final sliderData = {
-      "activeSlider": activeSlider,
-      "gambarSlider": gambarSlider,
-      "ketSlider": ketSlider,
-    };
+  addData(String gambar, String nama, int harga, int diskonPercent,
+      String statusToko, String asalToko, int rating, int terjual) async {
+    CollectionReference produk = fireStore.collection('produk');
 
-// Add a new document with a generated ID
+    final produkData = {
+      'gambar': gambar,
+      'nama': nama,
+      'harga': harga,
+      'diskonPercent': diskonPercent,
+      'statusToko': statusToko,
+      'asalToko': asalToko,
+      'rating': rating,
+      'terjual': terjual,
+    };
     try {
-      await slider.add(sliderData).then(
+      await produk.add(produkData).then(
             (DocumentReference doc) => Get.defaultDialog(
               title: "Success!",
               middleText: 'Berhasil menambah data',
@@ -34,7 +37,7 @@ class SliderController extends GetxController {
               middleTextStyle: TextStyle(color: Colors.white),
             ),
           );
-      Get.offAllNamed(Routes.SLIDER_DATA);
+      Get.offAllNamed(Routes.PRODUK_DATA);
     } catch (e) {
       Get.defaultDialog(
         title: "Error!",
@@ -47,24 +50,37 @@ class SliderController extends GetxController {
   }
 
   Future<QuerySnapshot<Object?>> getData() async {
-    CollectionReference slider = fireStore.collection('slider');
-    return await slider.get();
+    CollectionReference produk = fireStore.collection('produk');
+    return await produk.get();
   }
 
-  updateData(String id, bool activeSlider, String ketSlider,
-      String gambarSlider) async {
-    DocumentReference slider = fireStore.collection('slider').doc(id);
+  updateData(
+      String id,
+      String gambar,
+      String nama,
+      int harga,
+      int diskonPercent,
+      String statusToko,
+      String asalToko,
+      int rating,
+      int terjual) async {
+    DocumentReference produk = fireStore.collection('produk').doc(id);
     try {
-      final sliderData = {
-        "activeSlider": activeSlider,
-        "gambarSlider": gambarSlider,
-        "ketSlider": ketSlider,
+      final produkData = {
+        'gambar': gambar,
+        'nama': nama,
+        'harga': harga,
+        'diskonPercent': diskonPercent,
+        'statusToko': statusToko,
+        'asalToko': asalToko,
+        'rating': rating,
+        'terjual': terjual,
       };
 
-      await slider.update(sliderData);
+      await produk.update(produkData);
       Get.defaultDialog(
           title: 'Berhasil', middleText: "Berhasil Mengupdate data");
-      Get.toNamed(Routes.SLIDER_DATA);
+      Get.toNamed(Routes.PRODUK_DATA);
     } catch (e) {
       print(e);
       Get.defaultDialog(
@@ -80,14 +96,14 @@ class SliderController extends GetxController {
   deleteData(
     String id,
   ) async {
-    DocumentReference slider = fireStore.collection('slider').doc(id);
+    DocumentReference produk = fireStore.collection('produk').doc(id);
     try {
-      await slider.delete();
+      await produk.delete();
       Get.defaultDialog(
         title: "Info",
         middleText: "Apakah anda ingin menhapus",
         confirm: ElevatedButton(
-          onPressed: () => Get.offAllNamed(Routes.SLIDER_DATA),
+          onPressed: () => Get.offAllNamed(Routes.PRODUK_DATA),
           child: Text('YES'),
         ),
         cancel: ElevatedButton(

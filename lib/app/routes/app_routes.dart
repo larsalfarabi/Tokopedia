@@ -16,6 +16,10 @@ abstract class Routes {
   static const HOME_ADMIN = _Paths.HOME_ADMIN;
   static const SLIDER_DATA = _Paths.SLIDER_DATA;
   static const UPDATE_DATA = _Paths.UPDATE_DATA;
+  static const CREATE_SLIDER = _Paths.CREATE_SLIDER;
+  static const PRODUK_DATA = _Paths.PRODUK_DATA;
+  static const CREATE_PRODUK = _Paths.CREATE_PRODUK;
+  static const UPDATE_PRODUK = _Paths.UPDATE_PRODUK;
 }
 
 abstract class _Paths {
@@ -31,4 +35,8 @@ abstract class _Paths {
   static const HOME_ADMIN = '/home-admin';
   static const SLIDER_DATA = '/slider-data';
   static const UPDATE_DATA = '/update-data';
+  static const CREATE_SLIDER = '/create-slider';
+  static const PRODUK_DATA = '/produk-data';
+  static const CREATE_PRODUK = '/create-produk';
+  static const UPDATE_PRODUK = '/update-produk';
 }

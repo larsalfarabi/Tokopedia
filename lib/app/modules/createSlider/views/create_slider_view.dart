@@ -3,27 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tokopedia/app/controllers/slider_controller.dart';
 
-import '../controllers/update_data_controller.dart';
+import '../controllers/create_slider_controller.dart';
 
-class UpdateDataView extends GetView<UpdateDataController> {
-  final listData = Get.arguments;
-  final controller = Get.put(UpdateDataController());
+class CreateSliderView extends GetView<CreateSliderController> {
   final controllerSlider = Get.put(SliderController());
-
+  final controller = Get.put(CreateSliderController());
   @override
   Widget build(BuildContext context) {
     final lebar = MediaQuery.of(context).size.width;
     final tinggi = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
-          title: Text('UpdateDataView'),
+          title: Text('CreateDataView'),
           elevation: 0,
           centerTitle: true,
+          
         ),
         body: Obx(
           () => Column(
             children: [
-              Container(child: ElevatedButton(onPressed: () {},child: Text(''),),),
+              Container(
+                child: ElevatedButton(
+                  onPressed: () => controller.uploadGambar(),
+                  child: Text('upload Gambar'),
+                ),
+              ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 child: TextField(
@@ -88,8 +92,7 @@ class UpdateDataView extends GetView<UpdateDataController> {
                 width: lebar,
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                 child: ElevatedButton(
-                  onPressed: () => controllerSlider.updateData(
-                      listData.id,
+                  onPressed: () => controllerSlider.addData(
                       controller.aktif.value,
                       controller.keterangan.text,
                       controller.gambar.text),

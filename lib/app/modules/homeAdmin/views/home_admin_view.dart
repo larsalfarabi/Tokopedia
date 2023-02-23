@@ -22,9 +22,8 @@ class HomeAdminView extends GetView<HomeAdminController> {
               children: [
                 InkWell(
                     onTap: () => Get.toNamed(Routes.SLIDER_DATA),
-                    child: Menu(
-                        'assets/menu/promo.png', 'Promo Hari Ini', tinggi)),
-                Menu('assets/menu/toserba.png', 'Toserba', tinggi),
+                    child: Menu('assets/menu/promo.png', 'Slider', tinggi)),
+                InkWell(onTap: () => Get.toNamed(Routes.PRODUK_DATA), child: Menu('assets/menu/toserba.png', 'Produk', tinggi)),
               ],
             ),
           ),
