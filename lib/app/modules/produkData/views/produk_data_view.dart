@@ -56,7 +56,7 @@ Widget produk(lebar, lebar2, tinggi, data, controller) {
       ((data.data() as Map<String, dynamic>)['harga'] / 100);
   final hargaFix = (data.data() as Map<String, dynamic>)['harga'] - rumus;
   return InkWell(
-    onTap: () => Get.toNamed(Routes.DETAIL),
+    onTap: () => Get.toNamed(Routes.DETAIL, arguments: data),
     child: Container(
       height: tinggi * 0.44,
       width: lebar2,

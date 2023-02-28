@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
+import 'package:tokopedia/app/controllers/produk_controller.dart';
 import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 
 import '../controllers/detail_controller.dart';
 
 class DetailView extends GetView<DetailController> {
+  final listData = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
+    final rumus = (listData.data() as Map<String, dynamic>)['diskonPercent'] *
+        ((listData.data() as Map<String, dynamic>)['harga'] / 100);
+    final hargaFix = (listData.data() as Map<String, dynamic>)['harga'] - rumus;
     double lebar = MediaQuery.of(context).size.width;
     double tinggi = MediaQuery.of(context).size.height;
+    final controllerProduk = Get.put(ProdukController());
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -27,7 +34,10 @@ class DetailView extends GetView<DetailController> {
                       onTap: () => Get.back(),
                       child: Container(
                           margin: EdgeInsets.only(right: 10),
-                          child: Icon(IconlyLight.arrow_left)),
+                          child: Icon(
+                            IconlyLight.arrow_left,
+                            color: judul1,
+                          )),
                     ),
                     Container(
                       width: lebar * 0.5,
@@ -37,6 +47,7 @@ class DetailView extends GetView<DetailController> {
                         style: TextStyle(color: search),
                         decoration: InputDecoration(
                           hintText: "Cari Nvidia RTX 4090™",
+                          hintStyle: TextStyle(color: search),
                           filled: true,
                           prefixIcon: Icon(
                             IconlyLight.search,
@@ -87,7 +98,9 @@ class DetailView extends GetView<DetailController> {
                 height: tinggi * 0.43,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/parfum.png"),
+                      image: NetworkImage(
+                        (listData.data() as Map<String, dynamic>)["gambar"],
+                      ),
                       fit: BoxFit.cover),
                 ),
               ),
@@ -101,7 +114,7 @@ class DetailView extends GetView<DetailController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Rp370.000',
+                      "Rp${hargaFix}00 ",
                       style: TextStyle(
                           color: judul1,
                           fontWeight: FontWeight.w600,
@@ -121,8 +134,8 @@ class DetailView extends GetView<DetailController> {
                 width: lebar,
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
-                  'Mine. Perfumery ETHEREAL - 50ml Eau De Parfum',
-                  style: TextStyle(fontSize: 16.5),
+                  "${(listData.data() as Map<String, dynamic>)['nama']}",
+                  style: TextStyle(fontSize: 16.5, color: subjudul2),
                 ),
               ),
               SizedBox(
@@ -137,7 +150,10 @@ class DetailView extends GetView<DetailController> {
                     children: [
                       Container(
                         margin: EdgeInsets.only(right: 15),
-                        child: Text('Terjual 250+'),
+                        child: Text(
+                          'Terjual ${(listData.data() as Map<String, dynamic>)['terjual'].toString()}',
+                          style: TextStyle(color: subjudul2),
+                        ),
                       ),
                       Container(
                         width: lebar * 0.25,
@@ -155,7 +171,7 @@ class DetailView extends GetView<DetailController> {
                               size: 18,
                             ),
                             Text(
-                              '4.9 (320)',
+                              '${(listData.data() as Map<String, dynamic>)['rating'].toString()} (320)',
                               style: TextStyle(color: subjudul2),
                             ),
                           ],
@@ -210,7 +226,8 @@ class DetailView extends GetView<DetailController> {
               SizedBox(
                 height: tinggi * 0.02,
               ),
-              detailProduk(lebar, 'Detail produk', '200 g'),
+              detailProduk(lebar, 'Berat',
+                  '${(listData.data() as Map<String, dynamic>)['beratSatuan']} g'),
               SizedBox(
                 height: tinggi * 0.01,
               ),
@@ -221,7 +238,8 @@ class DetailView extends GetView<DetailController> {
                   color: shadow,
                 ),
               ),
-              detailProduk2(lebar, 'Etalase', 'Mine Private Collection'),
+              detailProduk2(lebar, 'Etalase',
+                  '${(listData.data() as Map<String, dynamic>)['etalase']}'),
               SizedBox(
                 height: tinggi * 0.01,
               ),
@@ -242,7 +260,7 @@ class DetailView extends GetView<DetailController> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
-                  'Mine. ETHEREAL Eau De Parfum 50mi glass perfume bottle in hard box packaging • ETHEREAL • With facets that highlight a side ...',
+                  '${(listData.data() as Map<String, dynamic>)['deskripsi']}',
                   style: TextStyle(color: judul1, fontSize: 15),
                 ),
               ),
@@ -355,40 +373,30 @@ class DetailView extends GetView<DetailController> {
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 15),
+                height: tinggi * 0.47,
                 child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      produk(
-                        lebar,
-                        lebar * 0.42,
-                        tinggi,
-                        'assets/parfum3.png',
-                        'Rp 370.000',
-                        'assets/populer.png',
-                        'Kota Tangerang',
-                      ),
-                      produk(
-                        lebar,
-                        lebar * 0.42,
-                        tinggi,
-                        'assets/parfun4.png',
-                        'Rp 450.000',
-                        'assets/populer.png',
-                        'Kota Tangerang',
-                      ),
-                      produk(
-                        lebar,
-                        lebar * 0.42,
-                        tinggi,
-                        'assets/parfun4.png',
-                        'Rp 450.000',
-                        'assets/populer.png',
-                        'Kota Tangerang',
-                      ),
-                    ],
-                  ),
-                ),
+                    scrollDirection: Axis.horizontal,
+                    child: FutureBuilder(
+                        future: controllerProduk.getData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            var listData = snapshot.data!.docs;
+                            print("========================");
+                            print(listData);
+                            print("========================");
+                            return Row(
+                              children: List.generate(
+                                  listData.length,
+                                  (index) => produk(lebar, lebar * 0.42, tinggi,
+                                      listData[index], controllerProduk)),
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        })),
               ),
               SizedBox(
                 height: tinggi * 0.025,
@@ -415,7 +423,9 @@ class DetailView extends GetView<DetailController> {
                       child: Text(
                         '4.9',
                         style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w600),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: subjudul3),
                       ),
                     ),
                     Text(
@@ -468,7 +478,7 @@ class DetailView extends GetView<DetailController> {
                         Text(
                           'Zain Ekstrom Bothman',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: judul1,
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
                         ),
@@ -533,7 +543,7 @@ class DetailView extends GetView<DetailController> {
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
                   'saya selalu tertarik dengan produk lokal, buat saya aroma nomor 2 karena subyektif, Kemasan nomor selanjutnya, tapi yang perlu di',
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: 15, color: judul1),
                 ),
               ),
               SizedBox(
@@ -593,7 +603,7 @@ class DetailView extends GetView<DetailController> {
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
                   'hai! kira-kira kapan restock lagi? thanks in      advance',
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: 15, color: judul1),
                 ),
               ),
               SizedBox(
@@ -701,6 +711,7 @@ class DetailView extends GetView<DetailController> {
                         child: Icon(
                           IconlyLight.chat,
                           size: 26,
+                          color: judul1,
                         ),
                       ),
                       Container(
@@ -748,7 +759,7 @@ Widget detailProduk(lebar, judul, subJudul) {
     child: Row(
       children: [
         Container(
-          margin: EdgeInsets.only(right: 65),
+          margin: EdgeInsets.only(right: 122),
           child: Text(
             judul,
             style: TextStyle(color: subjudul3, fontSize: 16),
@@ -756,7 +767,7 @@ Widget detailProduk(lebar, judul, subJudul) {
         ),
         Text(
           subJudul,
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16, color: judul1),
         ),
       ],
     ),
@@ -791,7 +802,8 @@ Widget heading(judul) {
     padding: EdgeInsets.symmetric(horizontal: 15),
     child: Text(
       judul,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+      style:
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: judul1),
     ),
   );
 }
@@ -844,11 +856,14 @@ Widget review(gambar, judul) {
   );
 }
 
-Widget produk(lebar, double lebar2, tinggi, gambar, harga, penjual, asal) {
+Widget produk(lebar, double lebar2, tinggi, data, controller) {
+  final rumus = (data.data() as Map<String, dynamic>)['diskonPercent'] *
+      ((data.data() as Map<String, dynamic>)['harga'] / 100);
+  final hargaFix = (data.data() as Map<String, dynamic>)['harga'] - rumus;
   return InkWell(
     onTap: () => Get.toNamed(Routes.DETAIL),
     child: Container(
-      height: tinggi * 0.36,
+      height: tinggi * 0.41,
       width: lebar2,
       margin: EdgeInsets.fromLTRB(0, 15, 12, 15),
       decoration: BoxDecoration(
@@ -866,23 +881,22 @@ Widget produk(lebar, double lebar2, tinggi, gambar, harga, penjual, asal) {
         children: [
           Container(
             width: lebar,
-            height: tinggi * 0.19,
+            height: tinggi * 0.2,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-              ),
-              image: DecorationImage(
-                  image: AssetImage(
-                    gambar,
-                  ),
-                  fit: BoxFit.cover),
-            ),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+                image: DecorationImage(
+                    image: NetworkImage(
+                      (data.data() as Map<String, dynamic>)["gambar"],
+                    ),
+                    fit: BoxFit.cover)),
           ),
           Container(
             width: lebar,
-            height: tinggi * 0.163,
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            height: tinggi * 0.21,
+            padding: EdgeInsets.only(top: 10, right: 8, left: 8, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(12),
@@ -892,9 +906,24 @@ Widget produk(lebar, double lebar2, tinggi, gambar, harga, penjual, asal) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Container(
+                  width: lebar,
+                  child: Text(
+                    "${(data.data() as Map<String, dynamic>)['nama']}",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: judul1),
+                  ),
+                ),
+                SizedBox(
+                  height: tinggi * 0.01,
+                ),
                 Text(
-                  harga,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                  "Rp${hargaFix}00 ",
+                  style: TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600, color: judul1),
                 ),
                 SizedBox(
                   height: tinggi * 0.006,
@@ -902,45 +931,54 @@ Widget produk(lebar, double lebar2, tinggi, gambar, harga, penjual, asal) {
                 Row(
                   children: [
                     Container(
-                      width: 60,
+                      width: 36,
                       height: 20,
                       margin: EdgeInsets.only(right: 6),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(1),
-                        color: bgCashback,
+                        color: bgDiskon,
                       ),
                       child: Text(
-                        'Cashback',
+                        "${(data.data() as Map<String, dynamic>)['diskonPercent'].toString()}%",
                         style: TextStyle(
-                          color: bgNav,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12,
-                        ),
+                            color: diskon,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12),
                       ),
                     ),
+                    Text(
+                      "Rp${(data.data() as Map<String, dynamic>)['harga'].toString()}.000",
+                      style: TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                          fontSize: 12,
+                          color: search),
+                    )
                   ],
                 ),
                 SizedBox(
-                  height: tinggi * 0.006,
+                  height: tinggi * 0.007,
                 ),
                 Row(
                   children: [
-                    Image.asset(
-                      penjual,
-                      width: 15,
+                    Container(
+                      margin: EdgeInsets.only(right: 2),
+                      child: Image.network(
+                        (data.data() as Map<String, dynamic>)['statusToko'],
+                        width: 15,
+                      ),
                     ),
                     Text(
-                      asal,
+                      (data.data() as Map<String, dynamic>)['asalToko'],
                       style: TextStyle(
                         color: search,
-                        fontSize: 13,
+                        fontSize: 14,
                       ),
                     )
                   ],
                 ),
                 SizedBox(
-                  height: tinggi * 0.011,
+                  height: tinggi * 0.012,
                 ),
                 Row(
                   children: [
@@ -953,7 +991,7 @@ Widget produk(lebar, double lebar2, tinggi, gambar, harga, penjual, asal) {
                       ),
                     ),
                     Text(
-                      '4.8 | Terjual 312',
+                      "${(data.data() as Map<String, dynamic>)['rating'].toString()} | Terjual ${(data.data() as Map<String, dynamic>)['terjual'].toString()}",
                       style: TextStyle(color: search, fontSize: 13),
                     )
                   ],

@@ -54,6 +54,11 @@ class ProdukController extends GetxController {
     return await produk.get();
   }
 
+  Future<QuerySnapshot<Object?>> getDataDiskon() async {
+    CollectionReference produk = fireStore.collection('produk');
+    return await produk.where("flashSale", isEqualTo: true).get();
+  }
+
   updateData(
       String id,
       String gambar,
@@ -150,6 +155,27 @@ class ProdukController extends GetxController {
       }
     } else {
       print('gagal mengirim file');
+    }
+  }
+
+  filterData() async {
+    final filter = await fireStore
+        .collection("produk")
+        // .orderBy('harga', descending: true)
+        // .limitToLast(3)
+
+        .where('flashSale', isEqualTo: true)
+        .get();
+    ;
+    print("==== * ====");
+    print(filter.docs.length);
+    print("==== * ====");
+    if (filter.docs.length > 0) {
+      filter.docs.forEach((element) {
+        print(element.data());
+      });
+    } else {
+      print("tidak ada data");
     }
   }
 }

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:tokopedia/app/controllers/produk_controller.dart';
 
 class UpdateProdukController extends GetxController {
-  //TODO: Implement UpdateProdukController
   final listData = Get.arguments;
   TextEditingController gambar = TextEditingController();
   TextEditingController nama = TextEditingController();
@@ -26,7 +25,7 @@ class UpdateProdukController extends GetxController {
     super.onInit();
     gambar.text = (listData.data() as Map<String, dynamic>)["gambar"];
     nama.text = (listData.data() as Map<String, dynamic>)["nama"];
-    // int.parse(harga.text)= (listData.data() as Map<String, dynamic>)["harga"];
+    // harga.text = (listData.data() as Map<String, dynamic>)["harga"];
     // int.parse(diskon.text) = (listData.data() as Map<String, dynamic>)["diskonPercent"];
     statusToko.text = (listData.data() as Map<String, dynamic>)["statusToko"];
     asalToko.text = (listData.data() as Map<String, dynamic>)["asalToko"];

@@ -29,7 +29,7 @@ class HomeView extends GetView<HomeController> {
               Container(
                 height: tinggi * 0.13,
                 decoration: BoxDecoration(color: bgNav),
-                padding: EdgeInsets.fromLTRB(15, 35, 15, 10),
+                padding: EdgeInsets.fromLTRB(13, 35, 13, 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -42,9 +42,10 @@ class HomeView extends GetView<HomeController> {
                         decoration: InputDecoration(
                           hintText: "Cari Nvidia RTX 4090™",
                           filled: true,
+                          hintStyle: TextStyle(color: search),
                           prefixIcon: Icon(
                             IconlyLight.search,
-                            size: 20,
+                            size: 18,
                             color: search,
                           ),
                           fillColor: Colors.white,
@@ -53,13 +54,13 @@ class HomeView extends GetView<HomeController> {
                             borderSide:
                                 BorderSide(color: Colors.transparent, width: 1),
                             borderRadius: BorderRadius.circular(6),
-                            gapPadding: 5,
+                            // gapPadding: 5,
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(6),
                             borderSide: const BorderSide(
                                 color: Colors.transparent, width: 1),
-                            gapPadding: 5,
+                            // gapPadding: 5,
                           ),
                         ),
                       ),
@@ -224,7 +225,7 @@ class HomeView extends GetView<HomeController> {
               ),
               Container(
                 width: lebar,
-                height: tinggi * 0.4,
+                height: tinggi * 0.47,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topRight,
@@ -242,7 +243,7 @@ class HomeView extends GetView<HomeController> {
                         ),
                       ),
                       FutureBuilder(
-                          future: controllerProduk.getData(),
+                          future: controllerProduk.getDataDiskon(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.done) {
@@ -254,11 +255,11 @@ class HomeView extends GetView<HomeController> {
                                 children: List.generate(
                                     listData.length,
                                     (index) => produk(
-                                        lebar,
-                                        lebar * 0.42,
-                                        tinggi,
-                                        listData[index],
-                                        controllerProduk)),
+                                          lebar,
+                                          lebar * 0.42,
+                                          tinggi,
+                                          listData[index],
+                                        )),
                               );
                             } else {
                               return Center(
@@ -368,7 +369,7 @@ class HomeView extends GetView<HomeController> {
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 15),
-                height: tinggi * 0.4,
+                height: tinggi * 0.47,
                 child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: FutureBuilder(
@@ -384,7 +385,7 @@ class HomeView extends GetView<HomeController> {
                               children: List.generate(
                                   listData.length,
                                   (index) => produk(lebar, lebar * 0.42, tinggi,
-                                      listData[index], controllerProduk)),
+                                      listData[index])),
                             );
                           } else {
                             return Center(
@@ -441,8 +442,8 @@ class HomeView extends GetView<HomeController> {
                           runSpacing: 10,
                           children: List.generate(
                               listData.length,
-                              (index) => produk(lebar, lebar * 0.4, tinggi,
-                                  listData[index], controllerProduk)),
+                              (index) => produk(
+                                  lebar, lebar * 0.4, tinggi, listData[index])),
                         ),
                       );
                     } else {
@@ -466,7 +467,8 @@ class HomeView extends GetView<HomeController> {
                     border: Border.all(width: 1, color: kotak2)),
                 child: Text(
                   'Lihat Selebihnya',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w500, color: judul1),
                 ),
               ),
               SizedBox(
@@ -532,14 +534,14 @@ Widget pilihan(lebar, warna, warna2, judul, warna3) {
   );
 }
 
-Widget produk(lebar, double lebar2, tinggi, data, controller) {
+Widget produk(lebar, double lebar2, tinggi, data) {
   final rumus = (data.data() as Map<String, dynamic>)['diskonPercent'] *
       ((data.data() as Map<String, dynamic>)['harga'] / 100);
   final hargaFix = (data.data() as Map<String, dynamic>)['harga'] - rumus;
   return InkWell(
-    onTap: () => Get.toNamed(Routes.DETAIL),
+    onTap: () => Get.toNamed(Routes.DETAIL, arguments: data),
     child: Container(
-      height: tinggi * 0.425,
+      height: tinggi * 0.41,
       width: lebar2,
       margin: EdgeInsets.fromLTRB(0, 15, 12, 15),
       decoration: BoxDecoration(
@@ -571,8 +573,8 @@ Widget produk(lebar, double lebar2, tinggi, data, controller) {
           ),
           Container(
             width: lebar,
-            height: tinggi * 0.223,
-            padding: EdgeInsets.only(top: 10, right: 8, left: 8),
+            height: tinggi * 0.21,
+            padding: EdgeInsets.only(top: 10, right: 8, left: 8, bottom: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(12),
@@ -588,20 +590,18 @@ Widget produk(lebar, double lebar2, tinggi, data, controller) {
                     "${(data.data() as Map<String, dynamic>)['nama']}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        color: Colors.black),
+                        color: judul1),
                   ),
                 ),
                 SizedBox(
-                  height: tinggi * 0.006,
+                  height: tinggi * 0.01,
                 ),
                 Text(
                   "Rp${hargaFix}00 ",
                   style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black),
+                      fontSize: 16, fontWeight: FontWeight.w600, color: judul1),
                 ),
                 SizedBox(
                   height: tinggi * 0.006,
@@ -609,9 +609,9 @@ Widget produk(lebar, double lebar2, tinggi, data, controller) {
                 Row(
                   children: [
                     Container(
-                      width: 30,
+                      width: 36,
                       height: 20,
-                      margin: EdgeInsets.only(right: 10),
+                      margin: EdgeInsets.only(right: 6),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(1),
@@ -635,25 +635,28 @@ Widget produk(lebar, double lebar2, tinggi, data, controller) {
                   ],
                 ),
                 SizedBox(
-                  height: tinggi * 0.006,
+                  height: tinggi * 0.007,
                 ),
                 Row(
                   children: [
-                    Image.network(
-                      (data.data() as Map<String, dynamic>)['statusToko'],
-                      width: 15,
+                    Container(
+                      margin: EdgeInsets.only(right: 2),
+                      child: Image.network(
+                        (data.data() as Map<String, dynamic>)['statusToko'],
+                        width: 15,
+                      ),
                     ),
                     Text(
                       (data.data() as Map<String, dynamic>)['asalToko'],
                       style: TextStyle(
                         color: search,
-                        fontSize: 13,
+                        fontSize: 14,
                       ),
                     )
                   ],
                 ),
                 SizedBox(
-                  height: tinggi * 0.011,
+                  height: tinggi * 0.012,
                 ),
                 Row(
                   children: [
