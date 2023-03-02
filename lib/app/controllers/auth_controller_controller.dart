@@ -136,6 +136,7 @@ class AuthControllerController extends GetxController {
         FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
     // Once signed in, return the UserCredential
+    // Get.offAllNamed(Routes.HOME);
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 

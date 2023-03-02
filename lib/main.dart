@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           print(snapshot.data);
           return GetMaterialApp(
-            theme: ThemeData(brightness: Brightness.dark),
             title: "Application",
             initialRoute:
                 snapshot.data != null && snapshot.data?.emailVerified == true

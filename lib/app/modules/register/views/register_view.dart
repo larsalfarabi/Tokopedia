@@ -240,27 +240,30 @@ class RegisterView extends GetView<RegisterController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              width: lebar * 0.42,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.grey.shade300, width: 1),
-                                  borderRadius: BorderRadius.circular(6)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset('assets/Facebook.png'),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    'Facebook',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
+                            InkWell(
+                              onTap: () => controllerAuth.signInWithFacebook(),
+                              child: Container(
+                                width: lebar * 0.42,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey.shade300, width: 1),
+                                    borderRadius: BorderRadius.circular(6)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset('assets/Facebook.png'),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      'Facebook',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             Container(
